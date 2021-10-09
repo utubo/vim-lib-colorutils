@@ -1,7 +1,7 @@
 # vim-lib-colorutils
-color utils for vimscript
+Color utils for vimscript
 
-⚠This is not plugin.
+⚠This is not aplugin.
 
 ## Functions
 
