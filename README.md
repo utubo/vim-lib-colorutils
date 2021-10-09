@@ -63,3 +63,5 @@ echo colorutils9#find_cterm_color('#ffffff')
 
 ## LICENSE
 [WTFPL](https://www.wtfpl.net)
+
+You can cut and use the source code you need.
