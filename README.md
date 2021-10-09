@@ -5,7 +5,7 @@ Color utils for vimscript
 
 ## Functions
 
-- You can use `colorutils9#...` on vim9script, otherwithe use `colorutils#...`
+- You can use `colorutils9#...` on vim9script, or use `colorutils#...`.
 - ⚠Functions does not validate arguments.
 
 ### colorutils9#rgb2hex(rgb: any): string
