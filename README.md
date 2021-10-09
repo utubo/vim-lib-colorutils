@@ -11,7 +11,7 @@ Color utils for vimscript
 ### colorutils9#rgb2hex(rgb: any): string
 ```vim
 # example
-echo colorutils9#rgb2hex({ 'r': 255, 'g': 128, 'b': 64 })
+echo colorutils9#rgb2hex({'r': 255, 'g': 128, 'b': 64})
 # -> '#ff8040'
 ```
 
@@ -25,7 +25,7 @@ echo colorutils9#hex2rgb('#ff8040')
 ### colorutils9#rgb2hsl(rgb: any): any
 ```vim
 # example
-echo colorutils9#rgb2hsl({ 'r': 255, 'g': 128, 'b': 64 })
+echo colorutils9#rgb2hsl({'r': 255, 'g': 128, 'b': 64})
 # -> {'h': 1.0, 'l': 20.104712, 's': 0.62549}
 ```
 
