@@ -32,7 +32,7 @@ echo colorutils9#rgb2hsl({'r': 255, 'g': 128, 'b': 64})
 ### colorutils9#hsl2rgb(hsl: any): any
 ```vim
 # example
-echo colorutils9#hsl2rgb('#ff8040')
+echo colorutils9#hsl2rgb({'h': 1.0, 'l': 20.104712, 's': 0.62549})
 # -> {'r': 255, 'g': 128, 'b': 64}
 ```
 
