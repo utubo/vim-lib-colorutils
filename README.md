@@ -47,7 +47,7 @@ echo colorutils9#find_cterm_color('#ffffff')
 ### others
 - colorutils9#hsl2hex(hsl: any): string
 - colorutils9#hex2hsl(hex: string): any
-- colorutils9#list_cterm_colors(hex: string): any
+- colorutils9#list_cterm_colors(hex: string): list<any>
 
 ## RGB and HSL
 - Ranges

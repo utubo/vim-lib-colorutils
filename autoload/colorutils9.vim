@@ -97,7 +97,7 @@ enddef
 # List cterm colors sort by similarity of "#rrggbb".
 # @param hex string "#rrggbb"
 # @return list<{index:, r:, g:, b:, h:, s:, l:}> cterm colors sort by similarity of colors
-def colorutils9#list_cterm_colors(hex: string): any
+def colorutils9#list_cterm_colors(hex: string): list<any>
   const hsl = colorutils9#hex2hsl(hex)
   var result = copy(CTERM_COLORS)
   # Calculate all distance of HSL.
