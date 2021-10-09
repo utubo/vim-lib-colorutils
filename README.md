@@ -35,14 +35,6 @@ echo colorutils9#rgb2hsl({ 'r': 255, 'g': 128, 'b': 64 })
 echo colorutils9#hsl2rgb('#ff8040')
 # -> {'r': 255, 'g': 128, 'b': 64}
 ```
-### colorutils9#hsl2hex(hsl: any): string
-
-### colorutils9#hex2hsl(hex: string): any
-
-### colorutils9#compare_distance_desc(x: any, y: any): number
-
-### colorutils9#list_cterm_colors(hex: string): any
-List cterm colors sort by similarity of "#rrggbb".
 
 ### colorutils9#find_cterm_color(hex: string): any
 Return the approximate cterm color of "#rrggbb".
@@ -51,6 +43,12 @@ Return the approximate cterm color of "#rrggbb".
 echo colorutils9#find_cterm_color('#ffffff')
 # -> {'index': 15, 'r': 255, 'g': 255, 'b': 255, 'h': 0, 'l': 1.0, 's': 0.0, 'distance': 0.0}
 ```
+
+### others
+- colorutils9#hsl2hex(hsl: any): string
+- colorutils9#hex2hsl(hex: string): any
+- colorutils9#compare_distance_desc(x: any, y: any): number
+- colorutils9#list_cterm_colors(hex: string): any
 
 ## RGB and HSL
 - Ranges
