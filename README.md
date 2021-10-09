@@ -61,3 +61,5 @@ echo colorutils9#find_cterm_color('#ffffff')
   - s(Saturation): [0.0 : 1.0]
   - l(Lightness): [0.0 : 1.0]
 
+## LICENSE
+[WTFPL](https://www.wtfpl.net)
