@@ -107,20 +107,38 @@ colorutils9#blend_hex({hex1}, {hex2}, [{ratio1}, [{ratio2}]])
 	# -> "#031e3c"
 
 colorutils9#hi({name}, [{default}])	      *colorutils9#hi()* *colorutils#hi()*
-	TODO
+	Return highlight by dictionary.
+	Whem highlight is not found, return {default}.
 	Options
 			type	default
 	{default}	any	{}
+>
+	# Example
+	echo colorutils9#hi('Normal')
+	# -> {'name': 'Normal', 'guifg': '#ffffff', 'guibg': '#000000'}
 
 		*colorutils9#list_cterm_colors()* *colorutils#list_cterm_colors()*
 colorutils9#list_cterm_colors({hex})
 	List cterm colors of "#rrggbb" order by similarity of "#rrggbb".
 	The return value is list of [{ index, r, g, b, h, s, l, hex }, ...].
+>
+	# Example
+	echo colorutils9#list_cterm_colors("#ffffff")
+	# -> [
+	# 	{'index':  15, 'r': 255, 'g': 255, 'b': 255, 'h': 0.0, 'l': 1.0,  's': 0.0},
+	# 	{'index': 231, 'r': 255, 'g': 255, 'b': 255, 'h': 0.0, 'l': 1.0,  's': 0.0},
+	# 	{'index': 255, 'r': 238, 'g': 238, 'b': 238, 'h': 0.0, 'l': 0.93, 's': 0.0},
+	# 	...
+	# ]
 
 		  *colorutils9#find_cterm_color()* *colorutils#find_cterm_color()*
 colorutils9#find_cterm_color({hex})
 	Return the approximate cterm color of "#rrggbb".
 	The return value is dictionary { index, r, g, b, h, s, l, hex }.
+>
+	# Example
+	echo colorutils9#find_cterm_color("#ffffff")
+	# -> {'index': 15, 'r': 255, 'g': 255, 'b': 255, 'h': 0.0, 'l': 1.0, 's': 0.0}
 
 ==============================================================================
 vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
