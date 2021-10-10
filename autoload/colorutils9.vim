@@ -1,21 +1,9 @@
 vim9script
 
-# * Ranges
-#   * r, g, b: [0 : 255]
-#   * h(Hue): [0 : 360]
-#   * s(Saturation): [0.0 : 1.0]
-#   * l(Lightness): [0.0 : 1.0]
-
-##
-# @param rgb dictionary{ r:, g:, b: }
-# @return string "#rrggbb"
 def colorutils9#rgb2hex(rgb: any): string
   return printf('#%02x%02x%02x', rgb.r, rgb.g, rgb.b)
 enddef
 
-##
-# @param hex string "#rrggbb"
-# @return dictionary{ r:, g:, b: }
 def colorutils9#hex2rgb(hex: string): any
   return {
     r: str2nr(hex[1 : 2], 16),
@@ -24,9 +12,6 @@ def colorutils9#hex2rgb(hex: string): any
   }
 enddef
 
-##
-# @param rgb dictionary{ r:, g:, b: }
-# @return dictionary{ h:, s:, l: }
 def colorutils9#rgb2hsl(rgb: any): any
   const mx = max([rgb.r, rgb.g, rgb.b]) * 1.0
   const mn = min([rgb.r, rgb.g, rgb.b]) * 1.0
@@ -56,35 +41,23 @@ def colorutils9#rgb2hsl(rgb: any): any
   return { h: h, s: s, l: cnt / 255.0 }
 enddef
 
-def s:k(n: float, hsl: any): number
-  return float2nr(n + hsl.h / 30) % 12
+def s:f(n: number, a: float, hsl: any): number
+  const x = n + hsl.h / 30.0
+  const y = x - floor(x / 12.0) * 12.0
+  const z = sort([y - 3.0, 9.0 - y, 1.0], 'n')[0]
+  const c = hsl.l - a * sort([-1.0, z], 'n')[1] * 1.0
+  return float2nr(255 * c)
 enddef
 
-def s:a(hsl: any): float
-  return hsl.s * sort([hsl.l, 1 - hsl.l])[0]
-enddef
-
-def s:f(n: float, hsl: any): number
-  return float2nr(255 * (hsl.l - s:a(hsl) * max([-1, sort([s:k(n, hsl) - 3, 9 - s:k(n, hsl), 1])[0]])))
-enddef
-
-##
-# @param hsl dictionary{ h:, s:, l: }
-# @return dictionary{ r:, g:, b: }
 def colorutils9#hsl2rgb(hsl: any): any
-  return { r: s:f(0.0, hsl), g: s:f(8.0, hsl), b: s:f(4.0, hsl) }
+  const a = hsl.s * sort([hsl.l, 1 - hsl.l], 'n')[0]
+  return { 'r': s:f(0, a, hsl), 'g': s:f(8, a, hsl), 'b': s:f(4, a, hsl) }
 enddef
 
-##
-# @param hsl dictionary{ h:, s:, l: }
-# @return string "#rrggbb"
 def colorutils9#hsl2hex(hsl: any): string
   return hsl->colorutils9#hsl2rgb()->colorutils9#rgb2hex()
 enddef
 
-##
-# @param hex string "#rrggbb"
-# @return dictionary{ h:, s:, l: }
 def colorutils9#hex2hsl(hex: string): any
   return hex->colorutils9#hex2rgb()->colorutils9#rgb2hsl()
 enddef
@@ -93,12 +66,6 @@ def colorutils9#compare_distance_desc(x: any, y: any): number
   return x.distance < y.distance ? -1 : x.distance > y.distance ? 1 : 0
 enddef
 
-##
-# @param rgb1 dictionary{r:, g:, b:}
-# @param rgb2 dictionary{r:, g:, b:}
-# @param ratio1 number default 1
-# @param ratio2 number defualt 1
-# @return dictionary{r:, g:, b:} blended color
 def colorutils9#blend_rgb(rgb1: any, rgb2: any, ratio1: number = 1, ratio2: number = 1): any
   const sum = ratio1 + ratio2
   return {
@@ -108,12 +75,6 @@ def colorutils9#blend_rgb(rgb1: any, rgb2: any, ratio1: number = 1, ratio2: numb
   }
 enddef
 
-##
-# @param hex1 string "#rrggbb"
-# @param hex2 string "#rrggbb"
-# @param ratio1 number default 1
-# @param ratio2 number defualt 1
-# @return string "#rrggbb" blended color
 def colorutils9#blend_hex(hex1: string, hex2: string, ratio1: number = 1, ratio2: number = 1): string
   const rgb1 = colorutils9#hex2rgb(hex1)
   const rgb2 = colorutils9#hex2rgb(hex2)
@@ -121,10 +82,6 @@ def colorutils9#blend_hex(hex1: string, hex2: string, ratio1: number = 1, ratio2
   return colorutils9#rgb2hex(blended)
 enddef
 
-##
-# @param name group-name of highlight
-# @param default value when hilight not found
-# @return dictionary
 def colorutils9#hi(name: string, default: any = {}, link_nest: number = 99): any
   if link_nest <= 0
     return default
@@ -152,17 +109,13 @@ def colorutils9#hi(name: string, default: any = {}, link_nest: number = 99): any
   return default
 enddef
 
-##
-# List cterm colors sort by similarity of "#rrggbb".
-# @param hex string "#rrggbb"
-# @return list<{index:, r:, g:, b:, h:, s:, l:}> cterm colors sort by similarity of colors
 def colorutils9#list_cterm_colors(hex: string): list<any>
   const hsl = colorutils9#hex2hsl(hex)
   var result = copy(CTERM_COLORS)
   # Calculate all distance of HSL.
   for cterm in result
     var dh = abs(hsl.h - cterm.h) / 360.0
-    dh = sort([dh, 1 - dh])[0]
+    dh = sort([dh, 1 - dh], 'n')[0]
     const ds = abs(hsl.s - cterm.s)
     const dl = abs(hsl.l - cterm.l)
     cterm.distance = dh * (hsl.s + cterm.s) + ds + dl * 2.0
@@ -172,16 +125,10 @@ def colorutils9#list_cterm_colors(hex: string): list<any>
   return result
 enddef
 
-##
-# Return the approximate cterm color of "#rrggbb".
-# @param hex string "#rrggbb"
-# @return directory<{index:, r:, g:, b:, h:, s:, l:}> colors of cterm sort by similarity of colors
 def colorutils9#find_cterm_color(hex: string): any
   return colorutils9#list_cterm_colors(hex)[0]
 enddef
 
-##
-# Colors of cterm
 var CTERM_COLORS = [
   { index: 0,   hex: '#000000', r: 0,   g: 0,   b: 0,   h: 0,   s: 0.00, l: 0.00 },
   { index: 1,   hex: '#800000', r: 128, g: 0,   b: 0,   h: 0,   s: 1.00, l: 0.25 },

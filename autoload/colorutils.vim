@@ -1,19 +1,7 @@
-" * Ranges
-"   * r, g, b: [0 : 255]
-"   * h(Hue): [0 : 360]
-"   * s(Saturation): [0 : 1]
-"   * l(Lightness): [0 : 1]
-
-"*
-" @param rgb dictionary{ r:, g:, b: }
-" @return string "#rrggbb"
 function colorutils#rgb2hex(rgb)
   return printf('#%02x%02x%02x', a:rgb.r, a:rgb.g, a:rgb.b)
 endfunction
 
-"*
-" @param hex string "#rrggbb"
-" @return dictionary{ r:, g:, b: }
 function colorutils#hex2rgb(hex)
   return {
     \ 'r': str2nr(a:hex[1 : 2], 16),
@@ -22,9 +10,6 @@ function colorutils#hex2rgb(hex)
   \ }
 endfunction
 
-"*
-" @param rgb dictionary{ r:, g:, b: }
-" @return dictionary{ h:, s:, l: }
 function colorutils#rgb2hsl(rgb)
   let mx = max([a:rgb.r, a:rgb.g, a:rgb.b]) * 1.0
   let mn = min([a:rgb.r, a:rgb.g, a:rgb.b]) * 1.0
@@ -54,36 +39,23 @@ function colorutils#rgb2hsl(rgb)
   return { 'h': h, 's': s, 'l': cnt / 255.0 }
 endfunction
 
-
-function s:k(n, hsl)
-  return float2nr(a:n + a:hsl.h / 30.0) % 12
+function s:f(n, a, hsl)
+  let x = a:n + a:hsl.h / 30
+  let y = x - floor(x / 12.0) * 12.0
+  let z = sort([y - 3.0, 9.0 - y, 1.0], 'n')[0]
+  let c = a:hsl.l - a:a * sort([-1.0, z], 'n')[1] * 1.0
+  return float2nr(255 * c)
 endfunction
 
-function s:a(hsl)
-  return a:hsl.s * sort([a:hsl.l, 1 - a:hsl.l])[0]
-endfunction
-
-function s:f(n, hsl)
-  return float2nr(255 * (a:hsl.l - s:a(a:hsl) * max([-1, sort([s:k(a:n, a:hsl) - 3, 9 - s:k(a:n, a:hsl), 1])[0]])))
-endfunction
-
-"*
-" @param hsl dictionary{ h:, s:, l: }
-" @return dictionary{ r:, g:, b: }
 function colorutils#hsl2rgb(hsl)
-  return { 'r': s:f(0, a:hsl), 'g': s:f(8, a:hsl), 'b': s:f(4, a:hsl) }
+  let a = a:hsl.s * sort([a:hsl.l, 1 - a:hsl.l], 'n')[0]
+  return { 'r': s:f(0, a, a:hsl), 'g': s:f(8, a, a:hsl), 'b': s:f(4, a, a:hsl) }
 endfunction
 
-"*
-" @param hsl dictionary{ h:, s:, l: }
-" @return string "#rrggbb"
 function colorutils#hsl2hex(hsl)
   return colorutils#rgb2hex(colorutils#hsl2rgb(a:hsl))
 endfunction
 
-"*
-" @param hex string "#rrggbb"
-" @return dictionary{ h:, s:, l: }
 function colorutils#hex2hsl(hex)
   return colorutils#rgb2hsl(colorutils#hex2rgb(a:hex))
 endfunction
@@ -92,10 +64,6 @@ function colorutils#compare_distance_desc(a, b)
   return a:a.distance < a:b.distance ? -1 : a:a.distance > a:b.distance ? 1 : 0
 endfunction
 
-"*
-" @param name group-name of highlight
-" @param default value when hilight not found
-" @return dictionary
 function colorutils#hi(name, default = {}, link_nest = 99)
   if a:link_nest <= 0
     return a:default
@@ -122,17 +90,13 @@ function colorutils#hi(name, default = {}, link_nest = 99)
   return a:default
 endfunction
 
-"*
-" List cterm colors sort by similarity of "#rrggbb".
-" @param hex string "#rrggbb"
-" @return list<{index:, r:, g:, b:, h:, s:, l:}> cterm colors sort by similarity of colors
 function colorutils#list_cterm_colors(hex)
   let hsl = colorutils#hex2hsl(a:hex)
   let result = copy(s:CTERM_COLORS)
   " Calculate all distance of HSL.
   for cterm in result
     let dh = abs(hsl.h - cterm.h) / 360.0
-    let dh = sort([dh, 1 - dh])[0]
+    let dh = sort([dh, 1 - dh], 'n')[0]
     let ds = abs(hsl.s - cterm.s)
     let dl = abs(hsl.l - cterm.l)
     let cterm.distance = dh * (hsl.s + cterm.s) + ds + dl * 2.0
@@ -142,16 +106,10 @@ function colorutils#list_cterm_colors(hex)
   return result
 endfunction
 
-"*
-" Return the approximate cterm color of "#rrggbb".
-" @param hex string "#rrggbb"
-" @return directory<{index:, r:, g:, b:, h:, s:, l:}> colors of cterm sort by similarity of colors
 function colorutils#find_cterm_color(hex)
   return colorutils#list_cterm_colors(a:hex)[0]
 endfunction
 
-"*
-" Colors of cterm
 let s:CTERM_COLORS = [
   \ { 'index':0,   'hex':'#000000', 'r':0,   'g':0,   'b':0,   'h':0,   's':0.00, 'l':0.00 },
   \ { 'index':1,   'hex':'#800000', 'r':128, 'g':0,   'b':0,   'h':0,   's':1.00, 'l':0.25 },
