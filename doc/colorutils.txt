@@ -1,0 +1,126 @@
+*colorutils.txt*	A light and configurable statusline/tabline for Vim
+
+Author: utubo (https://github.com/utubo)
+License: WTF License
+Repository: https://github.com/utubo/vim-lib-colorutils
+
+CONTENTS					*colorutils-contents*
+
+Introduction				|colorutils-introduction|
+RGB and HSL				colorutils-rgb colorutils-hsl
+Function				|colorutils-function|
+
+==============================================================================
+INTRODUCTION					*colorutils-introduction*
+
+The *colorutils* is a color utils for vimscript.
+
+==============================================================================
+RGB and HSL					*colorutils-rgb* *colorutils-hsl*
+
+property	type	min	max
+r(Red)		number	0 	255
+g(Green)	number	0 	255
+b(Blue)		number	0 	255
+h(Hue)		float	0.0	360.0
+s(Saturation)	float	0.0	1.0
+l(Lightness)	float	0.0	1.0
+
+==============================================================================
+FUNCTION					*colorutils-function*
+Exposed functions for colorutils9.vim.
+You can use colorutils9#... on vim9script or use colorutils#...
+
+colorutils9#rgb2hex({rgb})		*colorutils9#rgb2hex* *colorutils#rgb2hex*
+	Convert a dictionary {r, g, b}
+	to a hex string "#rrggbb".
+>
+	# Example
+	echo colorutils9#rgb2hex({'r': 255, 'g': 128, 'b': 64})
+	# -> "#ff8040"
+
+colorutils9#hex2rgb({hex})		*colorutils9#hex2rgb* *colorutils#hex2rgb*
+	Convert a hex string "#rrggbb".
+	to a dictionary {r, g, b}
+>
+	# Example
+	echo colorutils9#hex2rgb("#ff8040")
+	# -> {'r': 255, 'g': 128, 'b': 64}
+
+colorutils9#rgb2hsl({rgb})		*colorutils9#rgb2hsl* *colorutils#rgb2hsl*
+	Convert a dictionary {r, g, b}
+	to a dictionary {h, s, l}
+>
+	# Example
+	echo colorutils9#rgb2hsl({'r': 255, 'g': 128, 'b': 64})
+	# -> {'h': 20.104712, 's': 1.0, 'l': 0.62549}
+
+colorutils9#hsl2rgb({hsl})		*colorutils9#hsl2rgb* *colorutils#hsl2rgb*
+	Convert a dictionary {h, s, l}
+	to a dictionary {r, g, b}
+>
+	# Example
+	echo colorutils9#hsl2rgb({'h': 20.104712, 's': 1.0, 'l': 0.62549})
+	# -> {'r': 255, 'g': 127, 'b': 63}
+
+colorutils9#hsl2hex({hsl})		*colorutils9#hsl2hex* *colorutils#hsl2hex*
+	Convert a dictionary {h, s, l}
+	to a hex string "#rrggbb".
+>
+	# Example
+	echo colorutils9#hsl2hex({'h': 20.104712, 's': 1.0, 'l': 0.62549})
+	# -> "#ff7f3f"
+
+colorutils9#hex2hsl({hex})		*colorutils9#hex2hsl* *colorutils#hex2hsl*
+	Convert a hex string "#rrggbb".
+	to a dictionary {h, s, l}
+>
+	# Example
+	echo colorutils9#hex2hsl("#ff8040")
+	# -> {'h': 20.104712, 's': 1.0, 'l': 0.62549}
+
+				*colorutils9#blend_rgb()* *colorutils#blend_rgb()*
+colorutils9#blend_rgb({rgb1}, {rgb2}, [{ratio1}, [{ratio2}]])
+	Blend two colors {r, g, b}.
+	Options
+			type	default
+	{ratio1}	number	1
+	{ratio2}	number	1
+>
+	# Example
+	echo colorutils9#blend_rgb(
+		{'r': 4, 'g': 40, 'b': 80},
+		{'r': 2, 'g': 20, 'b': 40},
+	)
+	# -> {'r': 3, 'g': 30, 'b': 60}
+
+				*colorutils9#blend_hex()* *colorutils#blend_hex()*
+colorutils9#blend_hex({hex1}, {hex2}, [{ratio1}, [{ratio2}]])
+	Blend two hex strings.
+	Options
+			type	default
+	{ratio1}	number	1
+	{ratio2}	number	1
+>
+	# Example
+	echo colorutils9#blend_hex("#042850", "#021428")
+	# -> "#031e3c"
+
+colorutils9#hi({name}, [{default}])	      *colorutils9#hi()* *colorutils#hi()*
+	TODO
+	Options
+			type	default
+	{default}	any	{}
+
+		*colorutils9#list_cterm_colors()* *colorutils#list_cterm_colors()*
+colorutils9#list_cterm_colors({hex})
+	List cterm colors of "#rrggbb" order by similarity of "#rrggbb".
+	The return value is list of [{ index, r, g, b, h, s, l, hex }, ...].
+
+		  *colorutils9#find_cterm_color()* *colorutils#find_cterm_color()*
+colorutils9#find_cterm_color({hex})
+	Return the approximate cterm color of "#rrggbb".
+	The return value is dictionary { index, r, g, b, h, s, l, hex }.
+
+==============================================================================
+vim:tw=78:sw=4:ts=8:ft=help:norl:noet:
