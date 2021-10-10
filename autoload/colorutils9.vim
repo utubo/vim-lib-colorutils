@@ -94,6 +94,65 @@ def colorutils9#compare_distance_desc(x: any, y: any): number
 enddef
 
 ##
+# @param rgb1 dictionary{r:, g:, b:}
+# @param rgb2 dictionary{r:, g:, b:}
+# @param ratio1 number default 1
+# @param ratio2 number defualt 1
+# @return dictionary{r:, g:, b:} blended color
+def colorutils9#blend_rgb(rgb1: any, rgb2: any, ratio1: number = 1, ratio2: number = 1): any
+  const sum = ratio1 + ratio2
+  return {
+    r: (rgb1.r * ratio1 + rgb2.r * ratio2) / sum,
+    g: (rgb1.g * ratio1 + rgb2.g * ratio2) / sum,
+    b: (rgb1.b * ratio1 + rgb2.b * ratio2) / sum,
+  }
+enddef
+
+##
+# @param hex1 string "#rrggbb"
+# @param hex2 string "#rrggbb"
+# @param ratio1 number default 1
+# @param ratio2 number defualt 1
+# @return string "#rrggbb" blended color
+def colorutils9#blend_hex(hex1: string, hex2: string, ratio1: number = 1, ratio2: number = 1): string
+  const rgb1 = colorutils9#hex2rgb(hex1)
+  const rgb2 = colorutils9#hex2rgb(hex2)
+  const blended = colorutils9#blend_rgb(rgb1, rgb2, ratio1, ratio2)
+  return colorutils9#rgb2hex(blended)
+enddef
+
+##
+# @param name group-name of highlight
+# @param default value when hilight not found
+# @return dictionary
+def colorutils9#hi(name: string, default: any = {}, link_nest: number = 99): any
+  if link_nest <= 0
+    return default
+  endif
+  for h in split(execute('highlight ' .. name), "\n")
+    const m = matchlist(h,  '\(\S\+\)\s\+xxx \(.*\)')
+    if empty(m)
+      continue
+    endif
+    var item = {}
+    const link_to = matchstr(m[2], '^links to \zs.*')
+    if len(link_to) != 0
+      item = colorutils9#hi(link_to, {}, link_nest - 1)
+      item.name = m[1]
+      item.link_to = link_to
+      return item
+    endif
+    item.name = m[1]
+    for prop in split(m[2], ' ')
+      const kv = split(prop, '=')
+      item[kv[0]] = kv[1]
+    endfor
+    return item
+  endfor
+  return default
+enddef
+
+##
 # List cterm colors sort by similarity of "#rrggbb".
 # @param hex string "#rrggbb"
 # @return list<{index:, r:, g:, b:, h:, s:, l:}> cterm colors sort by similarity of colors

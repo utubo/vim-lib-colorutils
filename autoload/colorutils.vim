@@ -93,6 +93,36 @@ function colorutils#compare_distance_desc(a, b)
 endfunction
 
 "*
+" @param name group-name of highlight
+" @param default value when hilight not found
+" @return dictionary
+function colorutils#hi(name, default = {}, link_nest = 99)
+  if a:link_nest <= 0
+    return a:default
+  endif
+  for h in split(execute('highlight ' .. a:name), "\n")
+    let m = matchlist(h,  '\(\S\+\)\s\+xxx \(.*\)')
+    if empty(m)
+      continue
+    endif
+    let link_to = matchstr(m[2], '^links to \zs.*')
+    if len(link_to) != 0
+      let item = colorutils#hi(link_to, {}, a:link_nest - 1)
+      let item.name = m[1]
+      let item.link_to = link_to
+      return item
+    endif
+    let item = { 'name': m[1] }
+    for prop in split(m[2], ' ')
+      let kv = split(prop, '=')
+      let item[kv[0]] = kv[1]
+    endfor
+    return item
+  endfor
+  return a:default
+endfunction
+
+"*
 " List cterm colors sort by similarity of "#rrggbb".
 " @param hex string "#rrggbb"
 " @return list<{index:, r:, g:, b:, h:, s:, l:}> cterm colors sort by similarity of colors
