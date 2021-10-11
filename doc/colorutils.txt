@@ -30,7 +30,7 @@ l(Lightness)	float	0.0	1.0
 ==============================================================================
 FUNCTION					*colorutils-function*
 Exposed functions for colorutils9.vim.
-You can use colorutils9#func() on vim9script or use colorutils#func().
+You can use colorutils9#func() in vim9script or use colorutils#func().
 (These functions do not validate arguments!)
 
 colorutils9#rgb2hex({rgb})	    *colorutils9#rgb2hex()* *colorutils#rgb2hex()*

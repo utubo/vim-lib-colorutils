@@ -5,7 +5,7 @@ Color utils for vimscript
 
 ## Functions
 
-- You can use `colorutils9#...` on vim9script, or use `colorutils#...`.
+- You can use `colorutils9#...` in vim9script, or use `colorutils#...`.
 - ⚠These functions do not validate arguments!
 
 ### colorutils9#rgb2hex(rgb: any): string
@@ -26,14 +26,14 @@ echo colorutils9#hex2rgb('#ff8040')
 ```vim
 # example
 echo colorutils9#rgb2hsl({'r': 255, 'g': 128, 'b': 64})
-# -> {'h': 1.0, 'l': 20.104712, 's': 0.62549}
+# -> {'h': 20.104712, 's': 1.0, 'l': 0.62549}
 ```
 
 ### colorutils9#hsl2rgb(hsl: any): any
 ```vim
 # example
-echo colorutils9#hsl2rgb({'h': 1.0, 'l': 20.104712, 's': 0.62549})
-# -> {'r': 255, 'g': 128, 'b': 64}
+echo colorutils9#hsl2rgb({'h': 20.104712, 's': 1.0, 'l': 0.62549})
+# -> {'r': 255, 'g': 127, 'b': 63}
 ```
 
 ### colorutils9#find_cterm_color(hex: string): any
