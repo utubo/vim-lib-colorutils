@@ -1,7 +1,7 @@
 *colorutils.txt*	A light and configurable statusline/tabline for Vim
 
 Author: utubo (https://github.com/utubo)
-License: WTF License
+License: WTFPL License (https://www.wtfpl.net)
 Repository: https://github.com/utubo/vim-lib-colorutils
 
 CONTENTS					*colorutils-contents*
@@ -14,6 +14,7 @@ Function				|colorutils-function|
 INTRODUCTION					*colorutils-introduction*
 
 The *colorutils* is a color utils for vimscript.
+You can cut and use the source code you need.
 
 ==============================================================================
 RGB and HSL					*colorutils-rgb* *colorutils-hsl*
@@ -30,6 +31,7 @@ l(Lightness)	float	0.0	1.0
 FUNCTION					*colorutils-function*
 Exposed functions for colorutils9.vim.
 You can use colorutils9#func() on vim9script or use colorutils#func().
+(These functions do not validate arguments!)
 
 colorutils9#rgb2hex({rgb})		*colorutils9#rgb2hex* *colorutils#rgb2hex*
 	Convert a dictionary {r, g, b}

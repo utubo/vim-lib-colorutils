@@ -6,7 +6,7 @@ Color utils for vimscript
 ## Functions
 
 - You can use `colorutils9#...` on vim9script, or use `colorutils#...`.
-- ⚠Functions does not validate arguments.
+- ⚠These functions do not validate arguments!
 
 ### colorutils9#rgb2hex(rgb: any): string
 ```vim
@@ -41,7 +41,7 @@ Return the approximate cterm color of "#rrggbb".
 ```vim
 # example
 echo colorutils9#find_cterm_color('#ffffff')
-# -> {'index': 15, 'r': 255, 'g': 255, 'b': 255, 'h': 0, 'l': 1.0, 's': 0.0, 'distance': 0.0}
+# -> {'index': 15, 'r': 255, 'g': 255, 'b': 255, 'h': 0, 'l': 1.0, 's': 0.0}
 ```
 
 ### others
@@ -51,13 +51,14 @@ echo colorutils9#find_cterm_color('#ffffff')
 - colorutils9#hi(name: string, default: any = {}, link_nest: number = 99): any
 
 ## RGB and HSL
-- Ranges
-  - r(Red): [0 : 255]
-  - g(Green): [0 : 255]
-  - b(Blue): [0 : 255]
-  - h(Hue): [0 : 360]
-  - s(Saturation): [0.0 : 1.0]
-  - l(Lightness): [0.0 : 1.0]
+|property     |type  |min|max  |
+|-------------|------|---|-----|
+|r(Red)       |number|0  |255  |
+|g(Green)     |number|0  |255  |
+|b(Blue)      |number|0  |255  |
+|h(Hue)       |float |0.0|360.0|
+|s(Saturation)|float |0.0|1.0  |
+|l(Lightness) |float |0.0|1.0  |
 
 ## LICENSE
 [WTFPL](https://www.wtfpl.net)
