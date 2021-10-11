@@ -33,7 +33,7 @@ Exposed functions for colorutils9.vim.
 You can use colorutils9#func() on vim9script or use colorutils#func().
 (These functions do not validate arguments!)
 
-colorutils9#rgb2hex({rgb})		*colorutils9#rgb2hex* *colorutils#rgb2hex*
+colorutils9#rgb2hex({rgb})	    *colorutils9#rgb2hex()* *colorutils#rgb2hex()*
 	Convert a dictionary {r, g, b}
 	to a hex string "#rrggbb".
 >
@@ -42,7 +42,7 @@ colorutils9#rgb2hex({rgb})		*colorutils9#rgb2hex* *colorutils#rgb2hex*
 	# -> "#ff8040"
 <
 
-colorutils9#hex2rgb({hex})		*colorutils9#hex2rgb* *colorutils#hex2rgb*
+colorutils9#hex2rgb({hex})	    *colorutils9#hex2rgb()* *colorutils#hex2rgb()*
 	Convert a hex string "#rrggbb".
 	to a dictionary {r, g, b}
 >
@@ -51,7 +51,7 @@ colorutils9#hex2rgb({hex})		*colorutils9#hex2rgb* *colorutils#hex2rgb*
 	# -> {'r': 255, 'g': 128, 'b': 64}
 <
 
-colorutils9#rgb2hsl({rgb})		*colorutils9#rgb2hsl* *colorutils#rgb2hsl*
+colorutils9#rgb2hsl({rgb})	    *colorutils9#rgb2hsl()* *colorutils#rgb2hsl()*
 	Convert a dictionary {r, g, b}
 	to a dictionary {h, s, l}
 >
@@ -60,7 +60,7 @@ colorutils9#rgb2hsl({rgb})		*colorutils9#rgb2hsl* *colorutils#rgb2hsl*
 	# -> {'h': 20.104712, 's': 1.0, 'l': 0.62549}
 <
 
-colorutils9#hsl2rgb({hsl})		*colorutils9#hsl2rgb* *colorutils#hsl2rgb*
+colorutils9#hsl2rgb({hsl})	    *colorutils9#hsl2rgb()* *colorutils#hsl2rgb()*
 	Convert a dictionary {h, s, l}
 	to a dictionary {r, g, b}
 >
@@ -69,7 +69,7 @@ colorutils9#hsl2rgb({hsl})		*colorutils9#hsl2rgb* *colorutils#hsl2rgb*
 	# -> {'r': 255, 'g': 127, 'b': 63}
 <
 
-colorutils9#hsl2hex({hsl})		*colorutils9#hsl2hex* *colorutils#hsl2hex*
+colorutils9#hsl2hex({hsl})	    *colorutils9#hsl2hex()* *colorutils#hsl2hex()*
 	Convert a dictionary {h, s, l}
 	to a hex string "#rrggbb".
 >
@@ -78,7 +78,7 @@ colorutils9#hsl2hex({hsl})		*colorutils9#hsl2hex* *colorutils#hsl2hex*
 	# -> "#ff7f3f"
 
 
-colorutils9#hex2hsl({hex})		*colorutils9#hex2hsl* *colorutils#hex2hsl*
+colorutils9#hex2hsl({hex})	    *colorutils9#hex2hsl()* *colorutils#hex2hsl()*
 	Convert a hex string "#rrggbb".
 	to a dictionary {h, s, l}
 >
@@ -154,7 +154,7 @@ colorutils9#find_cterm_color({hex})
 	# 	'hex': '#ffffff',
 	# 	'r': 255, 'g': 255, 'b': 255,
 	# 	'h': 0.0, 'l': 1.0, 's': 0.0
-	#    }
+	# }
 <
 
 ==============================================================================
